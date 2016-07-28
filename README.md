@@ -19,7 +19,7 @@ Currently this simulator uses AdafruitDHT.py which is a python wrapper for a C b
 If the temperature is above the cooling setpoint, two relays are activated.
 One relay is hooked up to a compressor for cooling, the second relay is hooked up to a fan to circulate the cold air.
 If the temperature is below the cooling setpoint, the compressor and fan are disengaged UNLESS
-The fan switch is also manually on the on mode (as you often see on thermostats or AC's)
+The fan switch is also manually set to the on mode (as you often see on thermostats or AC's)
 
 This script does constantly output feedback of the current temperature, humidy, whether or not the temperature is above or below the cooling setpoint or heating setpoint, which fans are on, if the heating element is on, and how many iterations the program has run through so far.
 

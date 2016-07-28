@@ -30,4 +30,4 @@ Our prototype used 110v power through three circuits.  Two circuits were run thr
 Our prototype works perfectly, using the Raspberry Pi as a stand-in for a complex HVAC circuit, using two fan motors and a lightbulb.  We were able to successfully change the temperature and the cooling setpoints manually and have the pieces of the HVAC circuit we built behave accordingly.
 
 Here is our proof of concept:  https://www.youtube.com/watch?v=XtYMyyDnxeE&feature=youtu.be  
-This is out-dated in that what we have now is an actual working prototype ready to plugin to a compressor, fan and heating element.  Currently I'm working on making this code have any kind of user interface, which will have a web front-end soon and will require installing LAMP on the Pi.  More to come.
+This is out-dated in that what we have now is an actual working prototype ready to plugin to a compressor, fan and heating element.  Currently I'm working on making this code have any kind of user interface, which will have a web front-end soon and will require installing LAMP on the Pi.  More to come, including reporting and metrics, also ideally accessed over a web-interface.

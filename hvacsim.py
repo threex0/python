@@ -20,6 +20,7 @@ heatingMode = 0 # Heating mode On or Off in Boolean
 indoorFanOn = 0 # Manual mode for indoor fan On or Off in Boolean
 
 while 1: #While loop, always evaluates to true to run process in infinite loop
+	#Opens AdafruitDHT.py to get temperature/humidity
 	proc = subprocess.Popen(["/home/pi/Downloads/Adafruit_Python_DHT-master/examples/AdafruitDHT.py","11","16"],stdout=subprocess.PIPE)
 	procS = proc.stdout.read()
 	split = procS.split(' ')

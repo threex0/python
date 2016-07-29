@@ -1,7 +1,7 @@
 # rpi-thermostat
 HVAC/Thermostat Simulator for the Raspberry Pi
 
-Ideally this program is to be used in tandem with an arduino 4-port relay, as well as an arduino thermostat/barometer, both of which can be interfaced into the Raspberry Pi's GPIO pins.
+Ideally this program is to be used in tandem with an arduino 4-port relay, as well as an arduino thermostat both of which can be interfaced into the Raspberry Pi's GPIO pins.
 
 Configuration:
 The script sets the GPIO pins to BCM mode, strictly a preference, but can be changed at the top of the file.
@@ -21,7 +21,7 @@ One relay is hooked up to a compressor for cooling, the second relay is hooked u
 If the temperature is below the cooling setpoint, the compressor and fan are disengaged UNLESS
 The fan switch is also manually set to the on mode (as you often see on thermostats or AC's)
 
-This script does constantly output feedback of the current temperature, humidy, whether or not the temperature is above or below the cooling setpoint or heating setpoint, which fans are on, if the heating element is on, and how many iterations the program has run through so far.
+This script does constantly output feedback of the current temperature, humidity, whether or not the temperature is above or below the cooling setpoint or heating setpoint, which fans are on, if the heating element is on, and how many iterations the program has run through so far.
 
 If the temperature is below the heating setpoint, the heating element and the low fan mode come on.  With both the compressor and the heating element, it is important the fan be inexorably linked, especially so with the heating element to prevent burnout or fires.  Due to this we have constructed our prototype so that the low fan is forced to be on the same relay/circuit as the heating element.
 

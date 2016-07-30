@@ -27,8 +27,8 @@ while 1: #While loop, always evaluates to true to run process in infinite loop
 	temp = split[0].split('=')
 	
 	humidity = split[2].split('=')
-	print "Temperature: " + temp[1]
-	print "Humidity: " + humidity[1]
+	print ("Temperature: " + temp[1])
+	print ("Humidity: " + humidity[1])
 	temp[1] = str(temp[1]).replace('*','')
 	
 	# Check if temperature is higher or lower than cooling set point

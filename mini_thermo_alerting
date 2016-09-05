@@ -1,0 +1,90 @@
+import subprocess
+import RPi.GPIO as GPIO
+import time
+import datetime
+import string
+import smtplib
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
+
+#  Assign GPIO pins to BCM numbering format
+GPIO.setmode(GPIO.BCM)
+#  Asign individual pins to compressor, fans, etc...
+#  This script should only be using a compressor for the relay
+relayCompressor = 21
+
+executed = 0 # A variable to count how often the script is executed)
+sleep = 60  # Interval between readings in Seconds
+setpointOff = 2 # Cooling setpoint in Celsius
+	# This should be set to 2 degrees Celsisus or ~35 F
+setpointOn = 4 # Heating setpoint in Celsius
+	#  This should be set to 4 degrees celsius or ~40 F	
+
+emailBody = ""
+while 1: #While loop, always evaluates to true to run process in infinite loop
+	proc = subprocess.Popen(["/home/pi/Downloads/Adafruit_Python_DHT-master/examples/AdafruitDHT.py","11","16"],stdout=subprocess.PIPE)
+	procS = proc.stdout.read()
+	split = procS.split(' ')
+	temp = split[0].split('=')
+	
+	humidity = split[2].split('=')
+	print "Temperature: " + temp[1]
+	print "Humidity: " + humidity[1]
+	temp[1] = str(temp[1]).replace('*','')
+	
+	# Check if temperature is higher or lower than the off point and on point respectively
+	# Engage the compressor or turn it off accordingly
+	if float(temp[1]) > setpointOn:
+		print ("Temperature is greater than 40 degrees F, currently " + temp[1] + " in C.")
+		compressorOn = 1
+		GPIO.setup(relayCompressor,GPIO.OUT)
+		GPIO.output(relayCompressor,GPIO.LOW)
+		print ("Compressor engaged")
+		emailBody += "Temperature is greater than 40 degrees F, currently " + temp[1] + " in C.\nCompressor Engaged"
+
+	# Do nothing if in correct range, keep compressor on or off.
+	elif float(temp[1]) < setpointOn and float(temp[1]) > setpointOff:
+		print ("Temp is in between 35 and 40 degrees F, currently " + temp[1] + " in C.")
+		print ("In Range.  Not doing Anything")
+		emailBody += "Temp is in between 35 and 40 degrees F, currently " + temp[1] + " in C.\nIn Range.  Not doing Anything"
+
+	# If compressor is below 35, disengage.
+	if float(temp[1]) < setpointOff:
+		print ("Temperature is less than 35 degrees F, currently " + temp[1] + " in C.")
+		compressorOn = 0
+		GPIO.setup(relayCompressor,GPIO.OUT)
+		GPIO.output(relayCompressor,GPIO.HIGH)
+		print ("Compressor disengaged")
+		emailBody += "Temperature is less than 35 degrees F, currently " + temp[1] + " in C.\nCompressor disengaged"
+
+	t = time.time()
+	ts = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
+
+	#  Construct an email and send through the Designer Agents web server
+	#  Hopefully this works in their network.
+	msg = MIMEMultipart()
+	msg['From'] = 'rpi@designeragents.com'
+	msg['To'] = 'triplehalo@gmail.com,carbond@gmail.com'
+	msg['Subject'] = 'A Logging Message from Raspberry Pi Thermostat ' + ts
+	message = emailBody
+	msg.attach(MIMEText(message))
+
+	mailserver = smtplib.SMTP('mail.designeragents.com',25)
+	# identify ourselves to smtp gmail client
+	mailserver.ehlo()
+	# secure our email with tls encryption
+	#mailserver.starttls()
+	# re-identify ourselves as an encrypted connection
+	mailserver.ehlo()
+	mailserver.login('rpi@designeragents.com', '2fast2bs0d')
+
+	mailserver.sendmail('rpi@designeragents.com','triplehalo@gmail.com,carbond@gmail.com',msg.as_string())
+
+	mailserver.quit()
+
+	emailBody = ""
+
+	executed = executed + 1	
+	print ("Executed: " + str(executed) + " times\n")
+	if sleep > 0:
+		time.sleep(sleep)

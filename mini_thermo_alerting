@@ -76,9 +76,9 @@ while 1: #While loop, always evaluates to true to run process in infinite loop
 	#mailserver.starttls()
 	# re-identify ourselves as an encrypted connection
 	mailserver.ehlo()
-	mailserver.login('rpi@designeragents.com', '2fast2bs0d')
+	mailserver.login('email@address.com', 'the_password_for_this_account')
 
-	mailserver.sendmail('rpi@designeragents.com','triplehalo@gmail.com,carbond@gmail.com',msg.as_string())
+	mailserver.sendmail('email@address.com','recipient@email.com',msg.as_string())
 
 	mailserver.quit()
 

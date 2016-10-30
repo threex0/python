@@ -1,0 +1,33 @@
+def create_deck():
+	deck = {}
+	count = 0
+	j = 1
+	while(j <= 4):
+		i = 1
+		if (j == 1):
+			suit = "H"
+		elif (j == 2):
+			suit = "S"
+		elif (j == 3):
+			suit = "D"
+		elif (j == 4):
+			suit = "C"
+	
+		current_card = ''
+	
+		while (i <= 13):
+			if (i == 1):
+				current_card = "A" + suit
+			elif(i == 11):
+				current_card =  "J" + suit
+			elif(i == 12):
+				current_card = "Q" + suit
+			elif(i == 13):
+				current_card = "K" + suit
+			else:
+				current_card = str(i) + suit
+			deck[count] = current_card
+			i = i +1
+			count = count + 1
+		j = j+1
+	print deck

@@ -30,4 +30,4 @@ def create_deck():
 			i = i +1
 			count = count + 1
 		j = j+1
-	print deck
+	return deck
